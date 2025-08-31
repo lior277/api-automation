@@ -1,0 +1,6 @@
+pytest-bdd
+requests-mock
+requests
+pydantic
+pytest
+python-dotenv
