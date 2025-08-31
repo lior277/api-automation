@@ -12,9 +12,8 @@ def customer_card(ctx: ScenarioContext):
 @when(parsers.parse("the customer requests to purchase {liters:d} liters of fuel at pump {pump:d}"))
 def select_fuel(ctx: ScenarioContext, liters: int, pump: int):
     ctx.pump = pump
-    # if you need multiple purchases, switch to += to accumulate
-    ctx.liters = liters
-    ctx.amount = float(liters * 6)
+    ctx.liters += liters
+    ctx.amount += float(liters * 6)
 
 @when(parsers.parse("the payment API is called with amount {amount:f} ILS"))
 def call_payment(ctx: ScenarioContext, amount: float, payment_api):
