@@ -5,8 +5,6 @@ from tests.utils.payment_helpers import build_payment_body, PaymentMethod
 scenarios("../features/payment_mix.feature")
 
 
-# --- Common customer steps ---
-
 @given("a registered customer with a valid credit card")
 def customer_card(ctx: ScenarioContext):
     ctx.method = "CARD"
@@ -18,8 +16,6 @@ def customer_with_points(ctx: ScenarioContext, points: int):
     ctx.loyalty_points = points
     ctx.cart = []
 
-
-# --- Cart-specific steps ---
 
 @given(parsers.parse("a customer at pump {pump:d}"))
 def at_pump(ctx: ScenarioContext, pump: int):
@@ -44,14 +40,10 @@ def add_single_item(ctx: ScenarioContext, item: str):
     ctx.cart.append({"type": "ITEM", "name": item, "amount": 10.0})
 
 
-# --- Purchase with loyalty points ---
-
 @when(parsers.parse('the customer purchases a "{item}" for {cost:d} points'))
 def add_item_points(ctx: ScenarioContext, item: str, cost: int):
     ctx.cart.append({"type": "ITEM", "name": item, "cost_points": cost})
 
-
-# --- Payment actions ---
 
 @when(parsers.parse('the payment API is called with total amount {total:f} ILS and method "{method}"'))
 def call_mixed_payment(ctx: ScenarioContext, total: float, method: PaymentMethod, payment_api):
@@ -66,8 +58,6 @@ def call_payment_with_method(ctx: ScenarioContext, method: PaymentMethod, paymen
     resp = payment_api.charge_payment(body)
     ctx.payment_response = resp.json()
 
-
-# --- Assertions ---
 
 @then(parsers.parse('the payment response should be "{status}"'))
 def check_status(ctx: ScenarioContext, status: str):

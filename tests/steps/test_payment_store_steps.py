@@ -5,8 +5,6 @@ from tests.utils.payment_helpers import build_payment_body, PaymentMethod
 scenarios("../features/payment_store.feature")
 
 
-# --- Common customer steps ---
-
 @given("a registered customer with a valid credit card")
 def customer_card(ctx: ScenarioContext):
     ctx.method = "CARD"
@@ -18,8 +16,6 @@ def customer_with_points(ctx: ScenarioContext, points: int):
     ctx.loyalty_points = points
     ctx.cart = []
 
-
-# --- Purchase steps ---
 
 @when(parsers.parse('the customer purchases a "{item}" for {cost:d} points'))
 def add_item_points(ctx: ScenarioContext, item: str, cost: int):
@@ -37,8 +33,6 @@ def call_payment_with_method(ctx: ScenarioContext, method: PaymentMethod, paymen
     resp = payment_api.charge_payment(body)
     ctx.payment_response = resp.json()
 
-
-# --- Assertions ---
 
 @then(parsers.parse('the payment response should be "{status}"'))
 def assert_status(ctx: ScenarioContext, status: str):

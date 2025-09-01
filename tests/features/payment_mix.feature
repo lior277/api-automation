@@ -1,18 +1,13 @@
-Feature: Store Product Payment
-  As a customer in a gas station convenience store
-  I want to pay with different payment methods
-  So that I can redeem products with cash, card, or loyalty points
+Feature: Combined Transaction - Fuel and Store
+  As a customer at a gas station
+  I want to pay for both fuel and store items together
+  So that I only have one transaction at checkout
 
-  Scenario: Successful store product payment with loyalty points
-    Given a customer with 500 loyalty points
-    When the customer purchases a "Coffee" for 50 points
-    And the payment API is called with payment method "LOYALTY"
-    Then the payment response should be "APPROVED"
-    And the customer's loyalty balance should be reduced by 50
-
-  Scenario: Successful store product payment with credit card
-    Given a registered customer with a valid credit card
+  Scenario: Pay for fuel and store products together
+    Given a customer at pump 3
+    And the customer adds "Fuel - 30 liters" to the cart
     And the customer adds "Sandwich" to the cart
-    When the payment API is called with payment method "CARD"
+    And the customer adds "Soft Drink" to the cart
+    When the payment API is called with total amount 200.00 ILS and method "CARD"
     Then the payment response should be "APPROVED"
-    And the transaction should be saved in the payment history
+    And the cart should be marked as "PAID"
